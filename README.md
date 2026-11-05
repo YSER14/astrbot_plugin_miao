@@ -31,6 +31,7 @@
 - Node ≥ 22.12，依赖用随包的 `worker/package-lock.json` 安装
 - 一个专用 Redis，以及 headless Chromium（出图用）
 - 上游 miao-plugin 的干净检出，固定提交见 `upstreams.lock.json`
+- 打码是可选件，不装也能跑；依赖、放置与边界见下文「打码」一节
 
 准备隔离运行目录：
 
@@ -74,10 +75,22 @@ npm ci --ignore-scripts --no-audit --no-fund
 
 **每日维护**　`databackup.py` 每天 04:17 备份四个数据库（保留最近 7 代，默认开启）；`ledger.py` 每天 00:17 把当月账本落库并回填可查的更早月份（`auto_ledger` 默认关）；`tasks.py` 按 `sign_hour` / `sign_minute` 自动签到（`auto_sign` 默认关，不打开时凌晨那次本身也不跑，签到结果可推给主人私聊）。
 
+## 打码（极验点选，实验性）
+
+米游社在设备注册、`dailyNote` 和部分角色接口上会回 1034，附带一次极验点选验证。走通它要五步：原接口回 1034 并从响应头取 `x-trace-id` → 用 `createVerification` 换回 `gt` 与 `challenge` → 在本地点选题图，拿到 `validate` → 把 `validate` 提交给 `verifyVerification`，换回一次性的 `x-rpc-challenge` → 带着这个头重发原请求。中间任何一步失败，都按原来的 1034 文案回给用户，不新增错误提示。
+
+**代码在哪**　极验协议层 `crack.py` 和它要读的 `mousepath.json` 来自 [ravizhan/geetest-v3-click-crack](https://github.com/ravizhan/geetest-v3-click-crack)，AGPL-3.0，与本仓库的 MIT 冲突，所以不在本仓库里：部署时自行放进插件数据目录的 `solver/`。匹配那两层（大图图标检测、3×3 单元格比对）是自己写的，目前也还留在开发目录，尚未并入。
+
+**依赖**　单独装，别写进 `requirements.txt`，否则干净安装会被图像库拖到几百 MB：`opencv-python 4.10.0.84`、`numpy 2.1.x`、`ddddocr 1.6.1`、`scipy 1.18.1`、`httpx 0.27.2`、`cryptography 43.0.3`。装进插件数据目录的 `vendor/`，容器重建时不会丢。模型不用装——这条链路不依赖 ONNX，开发目录里那 335MB 的 `clip-visual.onnx` 和 43MB 的 `yolov8s.onnx` 都用不上。
+
+**现在的状态**　仍是终端脚本，没有接进任何指令、开关或定时任务；`dailyNote` 依旧按「风控」处理，体力与便笺提醒照旧没有。要用就在终端手动跑一次，拿到 `x-rpc-challenge` 后重发那次请求。
+
+**别踩的**　只验过原神（`x-rpc-challenge_game=2`），星铁与绝区零对应的取值没验过，别猜着填；挑战约 10 分钟过期，`validate` 更短，取图到提交至少隔 2 秒，更快会回 `duration short`；容器每 6 小时重启，求解器按需起进程、用完就退，别做成常驻；5003 是设备或账号风控，不是打码能解的东西。
+
 ## 已知限制
 
 - 账本、剧诗、幽境**只开放原神**：星铁与绝区零的回包形状不同且没有真实账号，命令直接回「只开放原神」而不猜。
-- 体力/便笺提醒没做 —— `dailyNote` 卡在米游社 geetest 风控。
+- 体力/便笺提醒没做 —— `dailyNote` 卡在米游社 geetest 风控。打码求解器见「打码」一节，目前只到终端脚本，还没接进这条链路。
 - 抽卡记录只做了 UIGF 导入与终端导出；authkey 拉取、群文件清单取得、旧档 `data/gachaJson` 导入器都没做，也尚未做 UIGF 标准认证。
 - 星铁养成的四列材料表、强化形态与多 UID 尚未用真实账号验收。
 - `#喵喵更新图像`、`#喵喵更新`、`#喵喵api` 仍只回「迁移中」：分别涉及 git 操作、重启进程与明文 token。
@@ -113,6 +126,6 @@ miao/                   游戏逻辑
 
 ## 第三方与许可
 
-本仓库代码以 MIT 发布，见 `LICENSE`。第三方来源、版本与许可全文记录在 `THIRD_PARTY_NOTICES.md`：liangshi-calc（MIT，预设数据）、Mora（GPL-3.0，运行时自行获取）、zolay achievements（MIT，已撤下但保留声明）、Snap Hutao（MIT，设备兼容配置）、Cocogoat（BSD-3-Clause，协议参考）。
+本仓库代码以 MIT 发布，见 `LICENSE`。第三方来源、版本与许可全文记录在 `THIRD_PARTY_NOTICES.md`：liangshi-calc（MIT，预设数据）、Mora（GPL-3.0，运行时自行获取）、zolay achievements（MIT，已撤下但保留声明）、Snap Hutao（MIT，设备兼容配置）、Cocogoat（BSD-3-Clause，协议参考）、ravizhan/geetest-v3-click-crack（AGPL-3.0，打码协议层，不随本仓库分发）。
 
 上游 miao-plugin 以 MIT 发布，按 `upstreams.lock.json` 的固定提交在运行时取用，不随本仓库分发。
