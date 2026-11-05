@@ -1,0 +1,108 @@
+{
+ "enabled": {
+  "type": "bool",
+  "description": "启用开发中的喵喵；完成验收前请只在隔离测试实例启用",
+  "default": false
+ },
+ "runtime_root": {
+  "type": "string",
+  "description": "已准备好的隔离运行目录；留空使用插件数据目录/runtime",
+  "default": ""
+ },
+ "node_executable": {
+  "type": "string",
+  "description": "Node可执行文件；留空使用PATH中的node",
+  "default": ""
+ },
+ "all_groups": {
+  "type": "bool",
+  "description": "允许机器人已加入的所有群使用喵喵游戏功能",
+  "default": false
+ },
+ "all_private_users": {
+  "type": "bool",
+  "description": "允许所有QQ用户私聊使用喵喵游戏功能；普通闲聊仍按现有私聊权限处理",
+  "default": false
+ },
+ "groups": {
+  "type": "list",
+  "description": "限定游戏群；全部群关闭时生效",
+  "default": []
+ },
+ "private_users": {
+  "type": "list",
+  "description": "额外私聊用户；仍遵守现有PrivateGate权限",
+  "default": []
+ },
+ "bare_help": {
+  "type": "bool",
+  "description": "接管更多通用帮助别名；默认关闭，明确的 #帮助 始终等同 #喵喵帮助",
+  "default": false
+ },
+ "auto_sign": {
+  "type": "bool",
+  "description": "每天自动给已登录的米游社账号签到；默认关，开关后才生效",
+  "default": false
+ },
+ "sign_hour": {
+  "type": "int",
+  "description": "自动签到的小时（0-23，北京时间）",
+  "default": 0
+ },
+ "sign_minute": {
+  "type": "int",
+  "description": "自动签到的分钟（0-59）",
+  "default": 7
+ },
+ "notify_daily": {
+  "type": "bool",
+  "description": "自动签到成功也推一条给主人；默认关，失败始终会推",
+  "default": false
+ },
+ "auto_ledger": {
+  "type": "bool",
+  "description": "每天自动把原神账本当月数字存到本地（接口只保留近三个月）",
+  "default": false
+ },
+ "ledger_hour": {
+  "type": "int",
+  "description": "账本采集的小时（0-23，北京时间）",
+  "default": 0
+ },
+ "ledger_minute": {
+  "type": "int",
+  "description": "账本采集的分钟（0-59）",
+  "default": 17
+ },
+ "backup_hour": {
+  "type": "int",
+  "description": "数据备份的小时（0-23，北京时间）",
+  "default": 4
+ },
+ "backup_minute": {
+  "type": "int",
+  "description": "数据备份的分钟（0-59）",
+  "default": 17
+ },
+ "mora_enabled": {
+  "type": "bool",
+  "description": "启用公开原神攻略、配队、复刻表和历史资料",
+  "default": false
+ },
+ "liangshi_enabled": {
+  "type": "bool",
+  "description": "启用梁氏预设、分享码和扩展计算；真人评分与群榜口径保持统一",
+  "default": false
+ },
+ "calc_mode": {
+  "type": "string",
+  "description": "梁氏计算模式：extended 扩展、complete 超全、team 个人组队、custom 自定义条目。群排名始终使用统一标准场景。",
+  "default": "extended",
+  "options": [
+   "extended",
+   "complete",
+   "team",
+   "custom"
+  ]
+ }
+}

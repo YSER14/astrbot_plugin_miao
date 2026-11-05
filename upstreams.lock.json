@@ -1,0 +1,32 @@
+{
+  "miao-plugin": {
+    "url": "https://github.com/yoimiya-kokomi/miao-plugin",
+    "commit": "850d854f24dab92a7d707cc448dbe34d19580dd6",
+    "license": "MIT",
+    "runtime_reuse": true
+  },
+  "Yunzai-genshin": {
+    "url": "https://github.com/TimeRainStarSky/Yunzai-genshin",
+    "commit": "0290a17cd42c52671e3130fe4a0a5aa38a64faa4",
+    "license": "not-confirmed",
+    "runtime_reuse": false
+  },
+  "StarRail-plugin": {
+    "url": "https://github.com/TsukinaKasumi/StarRail-plugin",
+    "commit": "3e68a03fccde6e00100536b102e93b31d609a1cf",
+    "license": "Apache-2.0",
+    "runtime_reuse": false
+  },
+  "MiTool-contract-examples": {
+    "url": "https://github.com/CainLuo/MiTool",
+    "commit": "056ab8d418a1a00f79e0bc4bf749f7fd7e54c39e",
+    "purpose": "Star Rail rpgcalc request and response contracts only; no implementation copied",
+    "runtime_reuse": false
+  },
+  "ZZZ-Plugin": {
+    "url": "https://github.com/ZZZure/ZZZ-Plugin",
+    "commit": "0b248bf1d65276fe9b38e45be7c74a2f161d69d9",
+    "license": "AGPL-3.0",
+    "runtime_reuse": false
+  }
+}

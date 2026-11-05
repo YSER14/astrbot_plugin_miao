@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node runtime: the upstream checkout is prepared locally, never committed
+node_modules/
+worker/plugins/
+runtime-receipt.json
+package-lock.json.bak
+
+# Local state
+*.sqlite3
+*.sqlite3-journal
+*.db
+*.log
+.env
+.env.*

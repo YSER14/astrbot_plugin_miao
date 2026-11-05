@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><style>
+*{box-sizing:border-box}body{margin:0;background:#101a2d;color:#eaf0fa;font-family:Arial,"Microsoft YaHei",sans-serif}#container{width:860px;padding:38px;background:linear-gradient(145deg,#12253b,#1e183b)}header{border-bottom:1px solid #526781;padding-bottom:20px}h1{font-size:34px;margin:0 0 12px}p{margin:8px 0;color:#bed0e4}.summary{padding:18px 0;line-height:1.8}table{width:100%;border-collapse:collapse;background:#ffffff0b;border-radius:12px;overflow:hidden}th,td{padding:14px 20px;text-align:left;border-bottom:1px solid #ffffff12}th{color:#95d8ff}td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}footer{font-size:15px;color:#a8b7cf;text-align:center;margin-top:26px}.notice{color:#ffdda3}.version{padding:0 4px}
+</style></head><body><div id="container">
+<header><h1>{{character.name}} · 星铁养成</h1><p>UID {{uid}} · 米游社养成计算</p></header>
+<div class="summary">角色：Lv.{{body.avatar.cur_level}} → {{body.avatar.target_level}}
+{{if body.equipment}}<br>光锥：Lv.{{body.equipment.cur_level}} → {{body.equipment.target_level}}{{/if}}
+{{each traces trace}}<br>{{trace.name}}：{{trace.current}} → {{trace.target}}{{/each}}
+{{if unowned}}<p class="notice">角色未出现在已拥有列表；起始等级按返回值计算。</p>{{/if}}
+<p>{{if inventory}}「需要」是接口返回的总量，「拥有」取自接口返回的背包数量；缺口只是两者相减，不参与总量统计。{{else}}以下为接口返回的总材料；接口没返回背包数量，所以不显示拥有与缺口。{{/if}}已达到目标的项目不再增加。</p></div>
+<table><thead><tr><th>材料</th><th>需要</th>{{if inventory}}<th>拥有</th><th>还缺</th>{{/if}}</tr></thead><tbody>{{each materials item}}<tr><td>{{item.name}}</td><td>{{item.amount}}</td>{{if inventory}}<td>{{item.owned === undefined ? '—' : item.owned}}</td><td>{{item.lack === undefined ? '—' : item.lack}}</td>{{/if}}</tr>{{/each}}</tbody></table>
+<footer>{{@copyright}}</footer>
+</div></body></html>

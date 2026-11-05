@@ -1,0 +1,9 @@
+name: astrbot_plugin_miao
+display_name: 喵喵·米哈游游戏
+desc: 原版喵喵计算与渲染适配、三游戏账号及米游功能迁移；开发中，默认关闭。
+version: 0.1.0-dev1
+author: sombe
+repo: "https://github.com/YSER14/astrbot_plugin_miao"
+support_platforms:
+  - aiocqhttp
+astrbot_version: ">=4.28,<5"
