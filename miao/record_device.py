@@ -31,9 +31,9 @@ async def register_device() -> dict[str, str]:
     from genshin.types import Region
 
     profile = json.loads(
-        Path(__file__)
-        .with_name("record-device-profile.json")
-        .read_text(encoding="utf-8")
+        (
+            Path(__file__).resolve().parent.parent / "record-device-profile.json"
+        ).read_text(encoding="utf-8")
     )
     alphabet = string.ascii_uppercase + string.digits
     device = "".join(secrets.choice(alphabet) for _ in range(12))

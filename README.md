@@ -35,7 +35,7 @@
 准备隔离运行目录：
 
 ```powershell
-python prepare.py --source <miao-checkout> --dest <runtime>
+python miao/prepare.py --source <miao-checkout> --dest <runtime>
 cd <runtime>
 npm ci --ignore-scripts --no-audit --no-fund
 ```
@@ -66,7 +66,7 @@ npm ci --ignore-scripts --no-audit --no-fund
 
 **面板更新**　本人已登录时优先读米游社完整角色列表并分批取详情；未登录或查他人 UID 时走公开游戏展柜。列表失败、详情缺项或某批报错都不算全量成功，也不会把展柜缓存当成新数据。5003 是设备或安全校验拒绝，与交互验证码 1034 分开处理。
 
-**设备上下文**　`accounts.sqlite3` 的 `record_contexts` 按发送者、游戏、UID 与凭据隔离保存设备 ID、FP 与客户端头。换号不继承，解绑即删。保留设备能少一次重复注册，但不保证免除官方验证；需要人工验证时走 `record_device.py` 与 `account_admin.py` 的终端入口。
+**设备上下文**　`accounts.sqlite3` 的 `record_contexts` 按发送者、游戏、UID 与凭据隔离保存设备 ID、FP 与客户端头。换号不继承，解绑即删。保留设备能少一次重复注册，但不保证免除官方验证；需要人工验证时走 `miao/record_device.py` 与 `miao/account_admin.py` 的终端入口。
 
 **数据隔离**　绑定、凭据、设备上下文与面板缓存按真实 QQ 身份隔离；群排名按机器人、群、游戏隔离，退群或解绑在下次查询时排除。私有接口不会被群排名借用，@ 别人只改查询对象，不能当越权。
 
@@ -86,26 +86,30 @@ npm ci --ignore-scripts --no-audit --no-fund
 ## 目录结构
 
 ```
-main.py             AstrBot 入口：事件、权限、发送
-commands.py         原生指令分发（账本、剧诗、幽境、七圣、开关）
-accounts.py         绑定、凭据、设备上下文（SQLite）
-hoyolab.py          米游社接口与错误码映射
-login.py            扫码登录与自动绑定
-wishes.py           UIGF 抽卡记录
-ledger.py           账本落库与历史
-rankings.py         群内同角色排名
-growth.py           星铁养成计算
-tasks.py            每日签到
-databackup.py       数据库每日备份
-engine.py           带超时的双向 stdio 请求
-prepare.py          准备固定版本的隔离运行目录
-delivery.py         回复策略选择：框架优先，快照兜底
-reply_policy.py     框架回复策略快照
-worker/             Node 运行层：渲染、计算、上游桥接
-upstreams.lock.json 上游来源与固定提交
+main.py                 AstrBot 入口：事件、权限、发送
+metadata.yaml           插件元数据（AstrBot 从这里读）
+_conf_schema.json       配置项定义（WebUI 渲染用）
+record-device-profile.json  Snap Hutao 设备兼容配置
+worker/                 Node 运行层：渲染、计算、上游桥接
+
+miao/                   游戏逻辑
+  commands.py           原生指令分发（账本、剧诗、幽境、七圣、开关）
+  accounts.py           绑定、凭据、设备上下文（SQLite）
+  hoyolab.py            米游社接口与错误码映射
+  login.py              扫码登录与自动绑定
+  wishes.py             UIGF 抽卡记录
+  ledger.py             账本落库与历史
+  rankings.py           群内同角色排名
+  growth.py             星铁养成计算
+  tasks.py              每日签到
+  databackup.py         数据库每日备份
+  engine.py             带超时的双向 stdio 请求
+  prepare.py            准备固定版本的隔离运行目录
+  delivery.py           回复策略选择：框架优先，快照兜底
+  reply_policy.py       框架回复策略快照
 ```
 
-本仓库是适配层快照，未包含 `addons.py`、`notify.py` 等模块；完整插件以运行目录为准。
+判 `miao/` 只是为了让根目录只留入口和元数据；同包相对导入，所以加模块仍然是「新建一个文件」。本仓库是适配层快照，未包含 `addons.py`、`notify.py` 等模块；完整插件以运行目录为准。
 
 ## 第三方与许可
 

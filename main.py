@@ -17,28 +17,28 @@ from astrbot.api.event import AstrMessageEvent, MessageChain, filter
 from astrbot.api.star import Context, Star, StarTools, register
 from astrbot.core.star.session_plugin_manager import SessionPluginManager
 
-from .accounts import Accounts, actor_key, game_server
-from .addons import Addons, worker_settings
-from .commands import Commands
-from .databackup import DataBackup
-from .delivery import send_reply
-from .engine import Engine, EngineError
-from .growth import Growth
-from .hoyolab import Hoyolab
-from .ledger import LedgerCollect
-from .login import Logins
-from .messages import Incoming, game_chain, miao_segments
-from .notify import Targets
-from .rankings import Rankings
-from .settings import (
+from .miao.accounts import Accounts, actor_key, game_server
+from .miao.addons import Addons, worker_settings
+from .miao.commands import Commands
+from .miao.databackup import DataBackup
+from .miao.delivery import send_reply
+from .miao.engine import Engine, EngineError
+from .miao.growth import Growth
+from .miao.hoyolab import Hoyolab
+from .miao.ledger import LedgerCollect
+from .miao.login import Logins
+from .miao.messages import Incoming, game_chain, miao_segments
+from .miao.notify import Targets
+from .miao.rankings import Rankings
+from .miao.settings import (
     CHAT_ALIASES,
     CHAT_TOGGLES,
     OFF_WORDS,
     SWITCH_TITLES,
     config_schema,
 )
-from .tasks import SignIn
-from .wishes import Wishes
+from .miao.tasks import SignIn
+from .miao.wishes import Wishes
 
 NAME = "astrbot_plugin_miao"
 

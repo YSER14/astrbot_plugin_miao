@@ -18,7 +18,7 @@ from pathlib import Path
 
 SOURCE_COMMIT = "850d854f24dab92a7d707cc448dbe34d19580dd6"
 SOURCE_REPO = "https://github.com/yoimiya-kokomi/miao-plugin"
-HERE = Path(__file__).resolve().parent
+PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 
 
 def prepare(source: Path, destination: Path) -> dict:
@@ -233,19 +233,19 @@ def prepare(source: Path, destination: Path) -> dict:
     # Adapter updates are safe to repeat; player files and custom config are not copied again.
     bridge = destination / "bridge"
     bridge.mkdir(exist_ok=True)
-    for file in (HERE / "worker").glob("*.mjs"):
+    for file in (PLUGIN_ROOT / "worker").glob("*.mjs"):
         shutil.copyfile(file, bridge / file.name)
     templates = destination / "plugins" / "miao-plugin" / "resources" / "astrbot"
     templates.mkdir(parents=True, exist_ok=True)
-    for file in (HERE / "worker" / "templates").glob("*.html"):
+    for file in (PLUGIN_ROOT / "worker" / "templates").glob("*.html"):
         shutil.copyfile(file, templates / file.name)
-    shutil.copyfile(HERE / "worker" / "package.json", destination / "package.json")
-    lock = HERE / "worker" / "package-lock.json"
+    shutil.copyfile(PLUGIN_ROOT / "worker" / "package.json", destination / "package.json")
+    lock = PLUGIN_ROOT / "worker" / "package-lock.json"
     if lock.is_file():
         shutil.copyfile(lock, destination / lock.name)
     common = destination / "lib" / "common"
     common.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(HERE / "worker" / "common.mjs", common / "common.js")
+    shutil.copyfile(PLUGIN_ROOT / "worker" / "common.mjs", common / "common.js")
     for relative in (
         "data/UserData",
         "data/PlayerData/gs",

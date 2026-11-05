@@ -86,7 +86,7 @@ NATIVE_COMMANDS = [
     ("主人", ["#喵喵开关", "#推送测试", "#喵喵开发状态"]),
 ]
 
-SCHEMA_PATH = Path(__file__).with_name("_conf_schema.json")
+SCHEMA_PATH = Path(__file__).resolve().parent.parent / "_conf_schema.json"
 
 
 def config_schema() -> dict[str, dict]:
